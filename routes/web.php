@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [App\Http\Controllers\FlickrController::class, 'show']);
+
+Route::get('/refresh', [App\Http\Controllers\FlickrController::class, 'refresh']);
+Route::get('/details/{id}', [App\Http\Controllers\FlickrController::class, 'details']);
+
