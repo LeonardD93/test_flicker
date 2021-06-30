@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Flicker;
 
-class FlickrController extends Controller{
+class FlickerController extends Controller{
 
 
 
-   public function show(){
-
-      return view('flicker', ['data' => Flicker::get()]);
+   public function index(){
+        $this->getRemoteData($this, 'createFlickers');
+      return json_encode( ['data' => Flicker::get()]) ;
    }
 
     public function refresh(){
         $this->getRemoteData($this, 'createFlickers');
-        return $this->show();
+        return $this->index();
     }
 
     public function details($id){
@@ -38,7 +38,7 @@ class FlickrController extends Controller{
 
 
    public function createFlickers($data){
-    //    $this->deleteOlds();
+       $this->deleteOlds();
         foreach($data->items as $elem){
             $flicker = Flicker::firstOrCreate(
                 ['link' => $elem->link],
