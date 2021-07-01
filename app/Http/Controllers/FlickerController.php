@@ -10,7 +10,6 @@ class FlickerController extends Controller{
 
 
    public function index(){
-        $this->getRemoteData($this, 'createFlickers');
       return json_encode( ['data' => Flicker::get()]) ;
    }
 
@@ -36,6 +35,31 @@ class FlickerController extends Controller{
     $promise->wait();
    }
 
+    public function save(){
+        $data=[
+            'title' => request('title'),
+            'media' => request('media'),
+            'date_taken' => request('date_taken'),
+            'description' => request('description'),
+            'published' => request('published'),
+            'author' => request('author'),
+            'author_id' => request('author_id'),
+            'tags' => request('tags'),
+        ];
+       
+       $flicker= !request('id')? null : Flicker::firstWhere('id', request('id'));
+       if($flicker){
+           $flicker->update($data);
+       }
+       else{
+            $flicker=Flicker::create($data);
+       }
+       return $flicker;
+   }
+   public function delete(){
+        $flicker= !request('id')? null : Flicker::firstWhere('id', request('id'));
+        return $flicker->delete();
+   }
 
    public function createFlickers($data){
        $this->deleteOlds();

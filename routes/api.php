@@ -19,3 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('flicker', ['App\Http\Controllers\FlickerController', 'index']);
+Route::get('flicker/refresh', ['App\Http\Controllers\FlickerController', 'refresh']);
+Route::post('flicker', ['App\Http\Controllers\FlickerController', 'save']);
+Route::delete('flicker', ['App\Http\Controllers\FlickerController', 'delete']);
